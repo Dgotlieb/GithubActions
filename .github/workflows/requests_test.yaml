@@ -1,4 +1,4 @@
-name: Example Workflow
+name: Requests Test Workflow
 
 on:
   push:
@@ -12,7 +12,7 @@ on:
         default: 'https://www.google.com'
 
 jobs:
-  example_job:
+  requests_test_job:
     runs-on: ubuntu-latest
 
     env:
