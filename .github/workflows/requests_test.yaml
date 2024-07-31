@@ -8,7 +8,7 @@ on:
     inputs:
       target_url:
         description: 'The URL to send the GET request to'
-        required: true
+        required: false
         default: 'https://www.google.com'
 
 jobs:
@@ -16,12 +16,12 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      GLOBAL_VAR: 'This is a global environment variable'
+      TARGET_URL: ${{ github.event.inputs.target_url || 'https://www.google.com' }}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -29,16 +29,13 @@ jobs:
 
       - name: Print environment variable and secret
         run: |
-          echo "Global environment variable: $GLOBAL_VAR"
           echo "Secret from GitHub: ${{ secrets.MY_SECRET }}"
-          echo "Target URL: ${{ github.event.inputs.target_url }}"
+          echo "Target URL: $TARGET_URL"
 
       - name: Install dependencies
         run: |
           pip install requests
-      
+
       - name: Run request script
-        env:
-          TARGET_URL: ${{ github.event.inputs.target_url }}
         run: |
           python request_script.py
