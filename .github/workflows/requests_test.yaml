@@ -1,0 +1,36 @@
+name: Requests Test Workflow
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: # Allows manual triggering from GitHub UI
+
+jobs:
+  example_job:
+    runs-on: ubuntu-latest
+
+    env:
+      GLOBAL_VAR: 'This is a global environment variable'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Print environment variable and secret
+        run: |
+          echo "Global environment variable: $GLOBAL_VAR"
+          echo "Secret from GitHub: ${{ secrets.MY_SECRET }}"
+
+      - name: Install dependencies
+        run: |
+          pip install requests
+      
+      - name: Run request script
+        run: |
+          python request_script.py
